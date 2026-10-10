@@ -91,6 +91,7 @@
             color: rgba(255, 255, 200, 0.8);
             /*Date gives golden vibe*/
             margin-top: 4px;
+
         }
 
         .search-box {
@@ -224,7 +225,7 @@
 <body>
 
 
-    <div id="bg" style="background-image: url('bg1.jfif');"></div> <!--For default image-->
+    <div id="bg"></div> <!--For default image-->
     <canvas id="stars"></canvas>
 
     <div class="container">
@@ -277,6 +278,7 @@
         </div>
     </div>
     <br> <!--used for gap-->
+
     <script> /* started writing JS */
         document.querySelectorAll('.shortcuts a').forEach(a => {
             const domain = new URL(a.href).hostname;
@@ -330,22 +332,33 @@
             requestAnimationFrame(animate);
         }
         animate();
-        const backgrounds = [ /*The list of images*/
-            'bg1.jfif',
-            'bg2.jfif',
-            'bg3.jfif'
-        ];
 
-        let currentIndex = 0;
-        const button = document.getElementById('bg-toggle-btn');
+        const clientId = 'UsH~'; /*Add your api key pleasee*/
         const bgElement = document.getElementById('bg'); // Target #bg
+        const button = document.getElementById('bg-toggle-btn');
 
-        // Set initial image on #bg
-        bgElement.style.backgroundImage = `url('${backgrounds[currentIndex]}')`;
+        function fetchUnsplashBackground() {
+            const unsplashUrl = `https://api.unsplash.com/photos/random?client_id=${clientId}&orientation=landscape`;
 
+            fetch(unsplashUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.urls && data.urls.regular) {
+                        bgElement.style.backgroundImage = `url('${data.urls.regular}')`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching Unsplash image:', error);
+                    bgElement.style.backgroundImage = `url('bg1.jfif')`;
+                });
+        }
+
+        // Fetch new background on every page load
+        fetchUnsplashBackground();
+
+        // Also fetch a new background when the settings button is clicked
         button.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % backgrounds.length;
-            bgElement.style.backgroundImage = `url('${backgrounds[currentIndex]}')`;
+            fetchUnsplashBackground();
         });
     </script>
     <br>.
