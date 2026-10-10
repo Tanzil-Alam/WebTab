@@ -333,7 +333,9 @@
         }
         animate();
 
-const clientId = 'YOUR_UNSPLASH_API_KEY_PLACEHOLDER';        const button = document.getElementById('bg-toggle-btn');
+        const clientId = 'UsHZYUxqJH8d6jzcaYwc-tISIPomaIY5mvq1KzJUDck'; /*Add your api key pleasee*/
+        const bgElement = document.getElementById('bg'); // Target #bg
+        const button = document.getElementById('bg-toggle-btn');
 
         function fetchUnsplashBackground() {
             const unsplashUrl = `https://api.unsplash.com/photos/random?client_id=${clientId}&orientation=landscape`;
