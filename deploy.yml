@@ -1,0 +1,21 @@
+name: Deploy New Tab Page
+
+on:
+  push:
+    branches: [ "main" ] # Or "master" depending on your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Inject Unsplash API Key
+        run: |
+          # Replace placeholder with the GitHub Secret or Variable value
+          sed -i 's/YOUR_UNSPLASH_API_KEY_PLACEHOLDER/${{ secrets.Your_Unplash_Api_Key }}/g' index.html
+
+      - name: Deploy to GitHub Pages
+        uses: actions/configure-pages@v4
+        # Add your standard deployment steps here (e.g., uploading artifact and deploying to GitHub Pages)
